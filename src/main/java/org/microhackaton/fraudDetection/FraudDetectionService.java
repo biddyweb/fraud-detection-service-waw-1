@@ -34,9 +34,9 @@ public class FraudDetectionService {
                         Setter
                                 .withGroupKey(HystrixCommandGroupKey.Factory.asKey("fraudDetection"))
                                 .andCommandKey(HystrixCommandKey.Factory.asKey("notifyDecisionMaker"))
-                        , new Closure(this) {
+                        , new Closure<String>(this) {
                             @Override
-                            public Object call(Object... args) {
+                            public String call(Object... args) {
                                 logger.info("test close circut");
                                 return "test";
                             }
