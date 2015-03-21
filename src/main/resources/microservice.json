@@ -2,8 +2,8 @@
     "waw": {
         "this": "com/ofg/fraud-detection-service-waw",
         "dependencies": {
-            "dupa": {
-                "path": "com/ofg/marketing-offer-generator-waw"
+            "decisionMaker": {
+                "path": "com/ofg/loan-application-decision-maker-waw"
             }
         }
     }

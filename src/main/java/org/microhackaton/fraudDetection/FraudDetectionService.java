@@ -2,6 +2,7 @@ package org.microhackaton.fraudDetection;
 
 import com.netflix.hystrix.HystrixCommand.Setter;
 import com.netflix.hystrix.HystrixCommandGroupKey;
+import com.netflix.hystrix.HystrixCommandKey;
 import com.nurkiewicz.asyncretry.AsyncRetryExecutor;
 import com.ofg.infrastructure.web.resttemplate.fluent.ServiceRestClient;
 import org.slf4j.Logger;
@@ -24,13 +25,15 @@ public class FraudDetectionService {
         this.asyncRetryExecutor = asyncRetryExecutor;
     }
 
-    public void verifyStatus(String id, LoanApplication loanApplication){
-        String result = serviceRestClient.forService("dupa")
+    public void verifyStatus(String id, FraudVerification fraudVerification){
+        String result = serviceRestClient.forService("decisionMaker")
                 .retryUsing(asyncRetryExecutor.withMaxRetries(5))
                 .put()
-                .withCircuitBreaker(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("dupa")))
-                .onUrl("/api/dupa")
-                .body(new FraudVerification("a","b","c","d","e"))
+                .withCircuitBreaker(Setter
+                        .withGroupKey(HystrixCommandGroupKey.Factory.asKey("fraudDetection"))
+                        .andCommandKey(HystrixCommandKey.Factory.asKey("notifyDecisionMaker")))
+                .onUrl("/api/loanApplication/"+id)
+                .body(fraudVerification)
                 .withHeaders()
                     .contentTypeJson()
                 .andExecuteFor()
