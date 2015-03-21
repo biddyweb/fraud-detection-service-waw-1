@@ -36,7 +36,7 @@ public class FraudDetectionService {
                                 .andCommandKey(HystrixCommandKey.Factory.asKey("notifyDecisionMaker"))
                         , { 'dupa' }
                 )
-                .onUrl("/api/loanApplication_del/$id")
+                .onUrl("/api/loanApplication/$id")
                 .body(fraudVerification)
                 .withHeaders()
                     .contentTypeJson()
