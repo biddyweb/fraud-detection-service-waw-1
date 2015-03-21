@@ -29,11 +29,12 @@ public class FraudDetectionService {
         String result = serviceRestClient.forService("decisionMaker")
                 .retryUsing(asyncRetryExecutor.withMaxRetries(5))
                 .put()
-                .withCircuitBreaker(Setter
+                .withCircuitBreaker(
+                        Setter
                         .withGroupKey(HystrixCommandGroupKey.Factory.asKey("fraudDetection"))
-                        .andCommandKey(HystrixCommandKey.Factory.asKey("notifyDecisionMaker")),
-                        new MyClosure(this, this))
-                .onUrl("/api/loanApplication_bad_test/"+id)
+                        .andCommandKey(HystrixCommandKey.Factory.asKey("notifyDecisionMaker"))
+                )
+                .onUrl("/api/loanApplication/"+id)
                 .body(fraudVerification)
                 .withHeaders()
                     .contentTypeJson()
