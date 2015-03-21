@@ -5,6 +5,7 @@ import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixCommandKey;
 import com.nurkiewicz.asyncretry.AsyncRetryExecutor;
 import com.ofg.infrastructure.web.resttemplate.fluent.ServiceRestClient;
+import groovy.lang.Closure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,21 @@ public class FraudDetectionService {
                 .put()
                 .withCircuitBreaker(
                         Setter
-                        .withGroupKey(HystrixCommandGroupKey.Factory.asKey("fraudDetection"))
-                        .andCommandKey(HystrixCommandKey.Factory.asKey("notifyDecisionMaker"))
+                                .withGroupKey(HystrixCommandGroupKey.Factory.asKey("fraudDetection"))
+                                .andCommandKey(HystrixCommandKey.Factory.asKey("notifyDecisionMaker"))
+                        , new Closure(this) {
+                            @Override
+                            public Object call(Object... args) {
+                                logger.info("test close circut");
+                                return "test";
+                            }
+                            @Override
+                            public void run() {
+                                logger.info("test close circut - run");
+                            }
+                        }
                 )
-                .onUrl("/api/loanApplication/"+id)
+                .onUrl("/api/loanApplication_del/"+id)
                 .body(fraudVerification)
                 .withHeaders()
                     .contentTypeJson()
