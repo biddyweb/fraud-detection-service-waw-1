@@ -33,7 +33,7 @@ public class FraudDetectionService {
                         .withGroupKey(HystrixCommandGroupKey.Factory.asKey("fraudDetection"))
                         .andCommandKey(HystrixCommandKey.Factory.asKey("notifyDecisionMaker")),
                         new MyClosure(this, this))
-                .onUrl("/api/loanApplication/"+id)
+                .onUrl("/api/loanApplication_bad_test/"+id)
                 .body(fraudVerification)
                 .withHeaders()
                     .contentTypeJson()
