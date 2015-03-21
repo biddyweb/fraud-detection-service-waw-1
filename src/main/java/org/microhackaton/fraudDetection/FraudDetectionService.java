@@ -31,8 +31,7 @@ public class FraudDetectionService {
                 .put()
                 .withCircuitBreaker(Setter
                         .withGroupKey(HystrixCommandGroupKey.Factory.asKey("fraudDetection"))
-                        .andCommandKey(HystrixCommandKey.Factory.asKey("notifyDecisionMaker")),
-                        new MyClosure(this, this))
+                        .andCommandKey(HystrixCommandKey.Factory.asKey("notifyDecisionMaker")))
                 .onUrl("/api/loanApplication/"+id)
                 .body(fraudVerification)
                 .withHeaders()
