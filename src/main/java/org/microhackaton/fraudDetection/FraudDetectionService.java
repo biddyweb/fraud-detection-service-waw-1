@@ -28,7 +28,7 @@ public class FraudDetectionService {
         String result = serviceRestClient.forService("dupa")
                 .retryUsing(asyncRetryExecutor.withMaxRetries(5))
                 .put()
-                .withCircuitBreaker(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("dupa")), ResponseFactory.create("dupa"))
+                .withCircuitBreaker(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("dupa")))
                 .onUrl("/api/dupa")
                 .body(new FraudVerification("a","b","c","d","e"))
                 .withHeaders()
