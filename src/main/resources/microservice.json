@@ -2,8 +2,8 @@
     "waw": {
         "this": "com/ofg/fraud-detection-service-waw",
         "dependencies": {
-            "collerator": {
-                "path": "com/ofg/some-other-service"
+            "dupa": {
+                "path": "com/ofg/marketing-offer-generator-waw"
             }
         }
     }
